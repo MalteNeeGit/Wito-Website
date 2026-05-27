@@ -43,3 +43,9 @@ Zielgruppe: Zahnarztpraxen (B2B) und Patienten.
 - VERMEIDEN: Playful design, AI purple/pink gradients
 - Responsive: 375px, 768px, 1024px, 1440px
 - Icons: Nur SVG (Heroicons/Lucide) - keine Emojis
+
+
+## Typografie
+- Primär: DM Sans (Fließtext, Navigation, Buttons)
+- Sekundär: Plus Jakarta Sans (Headlines, Hero)
+- Brand Assets: siehe brand_assets/brand_guidelines.md

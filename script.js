@@ -92,6 +92,57 @@
   });
 })();
 
+// Kennzahlen-Counter Animation
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+
+  const section = document.querySelector('.stats');
+  if (!section) return;
+
+  const counters = section.querySelectorAll('[data-counter]');
+  if (!counters.length) return;
+
+  // Ease-Out-Kurve: schnell am Anfang, verlangsamt zum Ende hin
+  function easeOut(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.counter, 10);
+    const duration = 1400;
+    const startTime = performance.now();
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      el.textContent = Math.round(easeOut(progress) * target);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver(
+    function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          counters.forEach(animateCounter);
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+
+  // Observer erst beim ersten Scroll starten – nicht sofort beim Laden.
+  // Ist die Section beim ersten Scroll bereits sichtbar, feuert observe() sofort.
+  window.addEventListener('scroll', function () {
+    observer.observe(section);
+  }, { passive: true, once: true });
+})();
+
 // Scroll-Reveal via Intersection Observer
 (function () {
   if (!('IntersectionObserver' in window)) {

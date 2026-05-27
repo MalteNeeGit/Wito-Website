@@ -23,7 +23,7 @@
     <div class="nav__container">
 
       <!-- Wito Logo -->
-      <a href="/" class="nav__logo" aria-label="Wito – Zurück zur Startseite">
+      <a href="#hero" class="nav__logo" aria-label="Wito – Zurück zur Startseite">
         <img src="brand_assets/logos/LOGO.svg" alt="Wito" height="40">
       </a>
 
@@ -142,6 +142,98 @@
             </svg>
             98% Patientenzufriedenheit
           </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Kennzahlen-Leiste -->
+    <section class="stats" aria-label="Kennzahlen">
+      <div class="stats__container">
+
+        <div class="stats__item">
+          <span class="stats__value" data-counter="98">0</span>
+          <span class="stats__label">% Patientenzufriedenheit</span>
+        </div>
+
+        <div class="stats__item">
+          <span class="stats__value" data-counter="3">0</span>
+          <span class="stats__label">× weniger Telefonanrufe</span>
+        </div>
+
+        <!-- Statischer Wert – keine Counter-Animation -->
+        <div class="stats__item">
+          <span class="stats__value">24/7</span>
+          <span class="stats__label">Buchungen möglich</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Features-Sektion -->
+    <section class="features" id="features" aria-labelledby="features-headline">
+      <div class="features__container">
+
+        <!-- Abschnitts-Header -->
+        <div class="features__header" data-reveal>
+          <div class="section-badge">Features</div>
+          <h2 class="features__headline" id="features-headline">
+            Alles was deine Praxis braucht
+          </h2>
+          <p class="features__subheadline">
+            Von der ersten Beschwerde bis zum bestätigten Termin – Wito begleitet Patienten und entlastet dein Team.
+          </p>
+        </div>
+
+        <!-- Feature-Karten Grid -->
+        <div class="features__grid">
+
+          <!-- Karte 1: Foto-Analyse -->
+          <article class="feature-card" data-reveal data-reveal-delay="1">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Kamera-Icon (Lucide) -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                <circle cx="12" cy="13" r="3"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Foto-Analyse</h3>
+            <p class="feature-card__description">
+              Patient fotografiert seinen Mund – die KI bewertet die Dringlichkeit und schlägt den passenden Termintyp vor.
+            </p>
+          </article>
+
+          <!-- Karte 2: Triage-Chat -->
+          <article class="feature-card" data-reveal data-reveal-delay="2">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Chat-Icon (Lucide) -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Triage-Chat</h3>
+            <p class="feature-card__description">
+              Patient beschreibt sein Problem im Chat – Wito leitet ihn zur richtigen Terminart weiter, ohne Wartezeit am Telefon.
+            </p>
+          </article>
+
+          <!-- Karte 3: Direkte Buchung -->
+          <article class="feature-card" data-reveal data-reveal-delay="3">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Kalender-Haken-Icon (Lucide) -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <path d="m9 16 2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Direkte Buchung</h3>
+            <p class="feature-card__description">
+              Terminbuchung direkt aus dem Chat – ohne Anruf, 24/7 verfügbar. Der Praxiskalender wird automatisch aktualisiert.
+            </p>
+          </article>
 
         </div>
       </div>

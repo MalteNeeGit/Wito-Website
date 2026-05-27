@@ -637,7 +637,8 @@ button {
    ============================================================ */
 @media (min-width: 1280px) {
   .nav__container,
-  .hero__container {
+  .hero__container,
+  .features__container {
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -648,5 +649,229 @@ button {
 
   .hero__float--2 {
     right: -6%;
+  }
+}
+
+/* ============================================================
+   Features-Sektion
+   ============================================================ */
+.features {
+  padding: 5rem 0;
+}
+
+.features__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* Abschnitts-Header (zentriert) */
+.features__header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Wiederverwendbarer Abschnitts-Badge (ohne Puls-Punkt) */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background-color: rgba(217, 237, 146, 0.09);
+  border: 1px solid rgba(217, 237, 146, 0.22);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--c-primary);
+  letter-spacing: 0.01em;
+  cursor: default;
+  transition:
+    background-color var(--dur-base) var(--ease),
+    border-color     var(--dur-base) var(--ease);
+}
+
+.section-badge:hover {
+  background-color: rgba(217, 237, 146, 0.15);
+  border-color: rgba(217, 237, 146, 0.38);
+}
+
+/* Abschnitts-Überschrift */
+.features__headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: #f0f0f0;
+  max-width: 22ch;
+}
+
+/* Abschnitts-Subheadline */
+.features__subheadline {
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--c-text-muted);
+  max-width: 54ch;
+}
+
+/* Feature-Karten Grid – Mobile: 1 Spalte */
+.features__grid {
+  display: grid;
+  gap: 1.125rem;
+}
+
+/* Feature-Karte */
+.feature-card {
+  padding: 1.75rem;
+  background-color: var(--c-bg-card);
+  border: 1px solid var(--c-border-mid);
+  border-radius: 16px;
+  cursor: default;
+  transition:
+    border-color var(--dur-base) var(--ease),
+    box-shadow   var(--dur-base) var(--ease),
+    transform    var(--dur-base) var(--ease);
+}
+
+.feature-card:hover {
+  border-color: rgba(217, 237, 146, 0.28);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px);
+}
+
+/* Icon-Container */
+.feature-card__icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(217, 237, 146, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-primary);
+  margin-bottom: 1.25rem;
+  flex-shrink: 0;
+  transition: background-color var(--dur-base) var(--ease);
+}
+
+.feature-card:hover .feature-card__icon {
+  background-color: rgba(217, 237, 146, 0.17);
+}
+
+/* Karten-Titel */
+.feature-card__title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--c-text);
+  margin-bottom: 0.625rem;
+  letter-spacing: -0.01em;
+}
+
+/* Karten-Beschreibung */
+.feature-card__description {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--c-text-muted);
+}
+
+/* Features – Tablet (768px+) */
+@media (min-width: 768px) {
+  .features__container {
+    padding: 0 2rem;
+    gap: 3.5rem;
+  }
+}
+
+/* Features – Desktop (1024px+): 3 Spalten */
+@media (min-width: 1024px) {
+  .features {
+    padding: 7rem 0;
+  }
+
+  .features__container {
+    padding: 0 2.5rem;
+    gap: 4rem;
+  }
+
+  .features__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* ============================================================
+   Kennzahlen-Leiste
+   ============================================================ */
+.stats {
+  background-color: var(--c-bg-elevated);
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.stats__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Vertikale Trennlinien zwischen den Kennzahlen */
+.stats__item:not(:last-child) {
+  border-right: 1px solid var(--c-border);
+}
+
+.stats__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+/* Zahl */
+.stats__value {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--c-primary);
+}
+
+/* Label */
+.stats__label {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--c-text-muted);
+}
+
+/* Kennzahlen – Tablet */
+@media (min-width: 768px) {
+  .stats__container {
+    padding: 3rem 2rem;
+  }
+}
+
+/* Kennzahlen – Desktop */
+@media (min-width: 1024px) {
+  .stats__container {
+    padding: 3.5rem 2.5rem;
+  }
+}
+
+/* Kennzahlen – Large Desktop */
+@media (min-width: 1280px) {
+  .stats__container {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
