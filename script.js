@@ -94,13 +94,13 @@
 
 // Kennzahlen-Counter Animation
 (function () {
-  if (!('IntersectionObserver' in window)) return;
-
   const section = document.querySelector('.stats');
   if (!section) return;
 
   const counters = section.querySelectorAll('[data-counter]');
   if (!counters.length) return;
+
+  let statsAnimated = false;
 
   // Ease-Out-Kurve: schnell am Anfang, verlangsamt zum Ende hin
   function easeOut(t) {
@@ -124,23 +124,86 @@
     requestAnimationFrame(step);
   }
 
-  const observer = new IntersectionObserver(
-    function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          counters.forEach(animateCounter);
-          obs.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.4 }
-  );
+  function onScroll() {
+    if (statsAnimated) return;
+    if (window.scrollY <= 100) return;
 
-  // Observer erst beim ersten Scroll starten – nicht sofort beim Laden.
-  // Ist die Section beim ersten Scroll bereits sichtbar, feuert observe() sofort.
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      statsAnimated = true;
+      counters.forEach(animateCounter);
+      window.removeEventListener('scroll', onScroll);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+// How It Works – 2-Phasen Fächer-Animation per Scroll
+(function () {
+  var section = document.getElementById('how-it-works');
+  if (!section) return;
+
+  var cards = section.querySelectorAll('.how-card');
+  var texts = section.querySelectorAll('.how-text-block');
+  if (cards.length < 3 || texts.length < 3) return;
+
+  var lerp = function (a, b, t) { return a + (b - a) * t; };
+
+  function update() {
+    // Viewport-Guard: kein JS auf Mobile
+    if (window.innerWidth < 1024) return;
+
+    var progress = Math.max(0, Math.min(1,
+      (window.scrollY - section.offsetTop) / (section.offsetHeight - window.innerHeight)
+    ));
+
+    var r0, r1, r2, o0, o1, o2, z0, z1, z2;
+
+    if (progress <= 0.5) {
+      var t = progress / 0.5;
+      // Phase 1: Karte 1 geht links, Karte 2 kommt zur Mitte, Karte 3 rückt nach
+      r0 = lerp(0, -45, t);   o0 = lerp(1, 0.3, t);   z0 = 2;
+      r1 = lerp(45, 0, t);    o1 = lerp(0.6, 1, t);   z1 = 3;
+      r2 = lerp(90, 45, t);   o2 = lerp(0.3, 0.6, t); z2 = 1;
+    } else {
+      var t = (progress - 0.5) / 0.5;
+      // Phase 2: Karte 2 geht links, Karte 3 kommt zur Mitte
+      r0 = lerp(-45, -90, t); o0 = lerp(0.3, 0, t);   z0 = 1;
+      r1 = lerp(0, -45, t);   o1 = lerp(1, 0.3, t);   z1 = 2;
+      r2 = lerp(45, 0, t);    o2 = lerp(0.6, 1, t);   z2 = 3;
+    }
+
+    // Transform direkt setzen – kein CSS transition auf transform
+    cards[0].style.transform = 'translateX(-50%) rotate(' + r0 + 'deg)';
+    cards[0].style.opacity   = o0;
+    cards[0].style.zIndex    = z0;
+
+    cards[1].style.transform = 'translateX(-50%) rotate(' + r1 + 'deg)';
+    cards[1].style.opacity   = o1;
+    cards[1].style.zIndex    = z1;
+
+    cards[2].style.transform = 'translateX(-50%) rotate(' + r2 + 'deg)';
+    cards[2].style.opacity   = o2;
+    cards[2].style.zIndex    = z2;
+
+    // Texte: CSS-Transition übernimmt, JS schaltet nur 0/1
+    texts[0].style.opacity = progress < 0.5  ? '1' : '0';
+    texts[1].style.opacity = (progress >= 0.45 && progress < 0.9) ? '1' : '0';
+    texts[2].style.opacity = progress >= 0.85 ? '1' : '0';
+  }
+
+  // rAF-Throttling: maximal einmal pro Frame
+  var ticking = false;
   window.addEventListener('scroll', function () {
-    observer.observe(section);
-  }, { passive: true, once: true });
+    if (!ticking) {
+      requestAnimationFrame(function () { update(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', update, { passive: true });
+  update();
 })();
 
 // Scroll-Reveal via Intersection Observer
