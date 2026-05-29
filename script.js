@@ -140,6 +140,63 @@
 })();
 
 
+// Schritt-Scroll-Animation
+(function () {
+  var track = document.querySelector('.step-scroll__track');
+  var slide2 = document.querySelector('.step-scroll__slide--2');
+  var slide3 = document.querySelector('.step-scroll__slide--3');
+  var dots = document.querySelectorAll('.step-scroll__dot');
+  if (!track || !slide2 || !slide3) return;
+
+  function invlerp(a, b, v) {
+    return Math.max(0, Math.min(1, (v - a) / (b - a)));
+  }
+
+  var targetO2 = 0, targetO3 = 0;
+  var currentO2 = 0, currentO3 = 0;
+  var rafId = null;
+  var activeStep = 0;
+
+  function setStep(step) {
+    if (step === activeStep) return;
+    activeStep = step;
+    dots.forEach(function (dot, i) {
+      dot.classList.toggle('is-active', i === step);
+    });
+  }
+
+  function render() {
+    var EASE = 0.065;
+    currentO2 += (targetO2 - currentO2) * EASE;
+    currentO3 += (targetO3 - currentO3) * EASE;
+
+    slide2.style.opacity = currentO2;
+    slide3.style.opacity = currentO3;
+
+    var diff = Math.abs(targetO2 - currentO2) + Math.abs(targetO3 - currentO3);
+    rafId = diff > 0.0008 ? requestAnimationFrame(render) : null;
+  }
+
+  function update() {
+    var rect = track.getBoundingClientRect();
+    var scrollDist = track.offsetHeight - window.innerHeight;
+    if (scrollDist <= 0) return;
+    var p = Math.max(0, Math.min(1, -rect.top / scrollDist));
+
+    targetO2 = invlerp(0.28, 0.46, p);
+    targetO3 = invlerp(0.60, 0.78, p);
+
+    var step = p < 0.37 ? 0 : p < 0.69 ? 1 : 2;
+    setStep(step);
+
+    if (!rafId) rafId = requestAnimationFrame(render);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
+
 // Scroll-Reveal via Intersection Observer
 (function () {
   if (!('IntersectionObserver' in window)) {

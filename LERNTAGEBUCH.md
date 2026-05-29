@@ -1352,3 +1352,76 @@ popup.style.opacity = t < 0.3 ? lerp(1, 0, t / 0.3) : 0;
 ```
 
 ---
+
+## 29.05.2026 – Schritt-Scroll-Animation (zustand1/2/3)
+
+### Was wurde gemacht
+
+Eine neue Sektion `.step-scroll` eingefügt, die drei PNG-Bilder (`zustand1.png`, `zustand2.png`, `zustand3.png`) als vollbildschirmbreite Scroll-Animation zeigt. Beim Scrollen durch die Sektion werden die Bilder sanft übergeblendet: Zustand 1 → 2 → 3.
+
+---
+
+### HTML-Struktur
+
+```html
+<section class="step-scroll">
+  <div class="step-scroll__track">       <!-- 300vh hoch -->
+    <div class="step-scroll__sticky">    <!-- sticky, 100vh hoch -->
+      <img class="step-scroll__slide--1" ...>
+      <img class="step-scroll__slide--2" ...>
+      <img class="step-scroll__slide--3" ...>
+    </div>
+  </div>
+</section>
+```
+
+**Warum 300vh für `__track`?** Der Trick heißt „Scroll-Pinning": Das äußere Element ist 3 Bildschirme hoch, damit der Browser genug „Scroll-Weg" hat. Das innere Element (`__sticky`) bleibt mit `position: sticky; top: 0` immer im Sichtfeld – wie ein Aufkleber, der am Fenster klebt, während man die Seite durchrollt.
+
+---
+
+### CSS-Konzept
+
+```css
+.step-scroll__track { height: 300vh; position: relative; }
+.step-scroll__sticky { position: sticky; top: 0; height: 100vh; }
+.step-scroll__slide  { position: absolute; inset: 0; object-fit: cover; }
+
+/* Stapelreihenfolge: Bild 1 unten (z=1), Bild 3 oben (z=3) */
+.step-scroll__slide--1 { z-index: 1; }
+.step-scroll__slide--2 { z-index: 2; opacity: 0; }
+.step-scroll__slide--3 { z-index: 3; opacity: 0; }
+```
+
+**`inset: 0`** ist eine CSS-Kurzschreibweise für `top:0; right:0; bottom:0; left:0` – das Bild füllt den gesamten Container.
+
+**`object-fit: cover`** verhält sich wie `background-size: cover`: Das Bild wird so skaliert, dass es den Container vollständig ausfüllt, ohne Ränder zu lassen. Teile des Bildes können dabei abgeschnitten werden.
+
+**`will-change: opacity`** teilt dem Browser vorab mit, dass sich `opacity` animieren wird. Der Browser kann das Element dann auf die GPU auslagern – das macht die Animation flüssiger.
+
+---
+
+### JavaScript-Logik
+
+```js
+function invlerp(a, b, v) {
+  return Math.max(0, Math.min(1, (v - a) / (b - a)));
+}
+
+// p = Scroll-Fortschritt durch den Track (0 = oben, 1 = unten)
+const p = -rect.top / (track.offsetHeight - window.innerHeight);
+
+slide2.style.opacity = invlerp(0.28, 0.43, p);
+slide3.style.opacity = invlerp(0.61, 0.76, p);
+```
+
+**`invlerp(a, b, v)`** = „inverse linear interpolation". Es berechnet, wie weit `v` zwischen `a` und `b` liegt (Ergebnis: 0–1). Beispiel: `invlerp(0.28, 0.43, 0.355)` = 0.5 → halbe Überblendung.
+
+**Überblendezonen:**
+- Bild 2 blendet ein: Scroll-Fortschritt 28% → 43%
+- Bild 3 blendet ein: Scroll-Fortschritt 61% → 76%
+
+Das bedeutet: Je ~70% der Scrollstrecke sieht man ein reines Bild, in den restlichen ~15% findet die sanfte Überblendung statt.
+
+**Warum kein `opacity` für Bild 1?** Bild 1 ist immer sichtbar (z-index 1, unten im Stapel). Bild 2 und 3 „überdecken" es mit steigender Deckkraft – wie das Aufdecken einer Karte vom Deck.
+
+---

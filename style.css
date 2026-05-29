@@ -40,6 +40,9 @@
   --dur-base: 250ms;
   --dur-slow: 400ms;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Nav-Höhe (für sticky-Offset der Scroll-Animation) */
+  --nav-h: 80px;
 }
 
 /* ============================================================
@@ -590,6 +593,8 @@ button {
    Responsive – Tablet (768px+)
    ============================================================ */
 @media (min-width: 768px) {
+  :root { --nav-h: 84px; }
+
   .nav__container {
     padding: 1.375rem 2rem;
   }
@@ -604,6 +609,8 @@ button {
    Responsive – Desktop (1024px+)
    ============================================================ */
 @media (min-width: 1024px) {
+  :root { --nav-h: 88px; }
+
   /* Desktop-Nav einblenden */
   .nav__links {
     display: flex;
@@ -873,6 +880,114 @@ button {
   .stats__container {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+/* =====================================================
+   Schritt-Scroll-Animation
+   ===================================================== */
+.step-scroll {
+  background: var(--c-bg);
+  padding: 0 1rem;
+}
+
+.step-scroll__track {
+  height: 260vh;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Sticky-Wrapper: füllt verfügbaren Viewport, zentriert Inhalt */
+.step-scroll__sticky {
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* Bild-Container */
+.step-scroll__frame {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 52vh, 540px);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Gradient-Maske: links, rechts und oben fließend ausblenden */
+.step-scroll__frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, var(--c-bg) 0%, transparent 10%, transparent 90%, var(--c-bg) 100%),
+    linear-gradient(to bottom, var(--c-bg) 0%, transparent 22%);
+}
+
+.step-scroll__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  will-change: opacity;
+}
+
+.step-scroll__slide--1 { z-index: 1; }
+.step-scroll__slide--2 { z-index: 2; opacity: 0; }
+.step-scroll__slide--3 { z-index: 3; opacity: 0; }
+
+/* Schritt-Indikatoren (Pill-Dots) */
+.step-scroll__indicators {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.step-scroll__dot {
+  display: block;
+  height: 6px;
+  width: 6px;
+  border-radius: 99px;
+  background: var(--c-text-subtle);
+  transition:
+    width 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.4s ease;
+  flex-shrink: 0;
+}
+
+.step-scroll__dot.is-active {
+  width: 24px;
+  background: var(--c-primary);
+}
+
+/* Schritt-Scroll – Tablet */
+@media (min-width: 768px) {
+  .step-scroll {
+    padding: 0 2rem;
+  }
+  .step-scroll__frame {
+    height: clamp(240px, 55vh, 600px);
+  }
+}
+
+/* Schritt-Scroll – Desktop */
+@media (min-width: 1024px) {
+  .step-scroll {
+    padding: 0 2.5rem;
+  }
+  .step-scroll__frame {
+    height: clamp(280px, 58vh, 680px);
   }
 }
 

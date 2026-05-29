@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"hero CTA trust social proof B2B SaaS\" --domain landing -n 3)",
-      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"animation accessibility touch\" --domain ux -n 3)"
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"animation accessibility touch\" --domain ux -n 3)",
+      "Bash(awk 'NR<=878' \"/Users/malteneemann/Desktop/Wito Website/style.css\")",
+      "Bash(head -878 \"/Users/malteneemann/Desktop/Wito Website/style.css\")",
+      "Bash(mv /tmp/style_clean.css \"/Users/malteneemann/Desktop/Wito Website/style.css\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
