@@ -139,62 +139,73 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
-// How It Works – 2-Phasen Fächer-Animation per Scroll
+// How It Works – 2-Phasen Fächer-Animation
 (function () {
-  var section = document.getElementById('how-it-works');
+  const section = document.getElementById('how-it-works');
   if (!section) return;
 
-  var cards = section.querySelectorAll('.how-card');
-  var texts = section.querySelectorAll('.how-text-block');
+  const cards = section.querySelectorAll('.how-stage > .how-card');
+  const texts = section.querySelectorAll('.how-text-block');
+  const popup = section.querySelector('.how-popup');
   if (cards.length < 3 || texts.length < 3) return;
 
-  var lerp = function (a, b, t) { return a + (b - a) * t; };
+  const lerp  = (a, b, t) => a + (b - a) * t;
+  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
   function update() {
-    // Viewport-Guard: kein JS auf Mobile
     if (window.innerWidth < 1024) return;
 
-    var progress = Math.max(0, Math.min(1,
-      (window.scrollY - section.offsetTop) / (section.offsetHeight - window.innerHeight)
-    ));
+    const progress = clamp(
+      (window.scrollY - section.offsetTop) / (section.offsetHeight - window.innerHeight),
+      0, 1
+    );
 
-    var r0, r1, r2, z0, z1, z2;
+    let r0, r1, r2;
 
     if (progress <= 0.5) {
-      var t = progress / 0.5;
-      // Phase 1: Karte 1 geht links, Karte 2 kommt zur Mitte, Karte 3 rückt nach
-      r0 = lerp(0, -45, t);   z0 = 2;
-      r1 = lerp(45, 0, t);    z1 = 3;
-      r2 = lerp(90, 45, t);   z2 = 1;
+      const t = progress / 0.5;
+
+      r0 = lerp(0,  -45, t);
+      r1 = lerp(45,   0, t);
+      r2 = lerp(90,  45, t);
+
+      cards[0].style.zIndex = t > 0.5 ? 1 : 3;
+      cards[1].style.zIndex = t > 0.5 ? 3 : 2;
+      cards[2].style.zIndex = 1;
+
+      texts[0].style.opacity = t < 0.6 ? 1 : lerp(1, 0, (t - 0.6) / 0.4);
+      texts[1].style.opacity = t < 0.6 ? 0 : lerp(0, 1, (t - 0.6) / 0.4);
+      texts[2].style.opacity = 0;
+
+      if (popup) popup.style.opacity = t < 0.8 ? 0 : lerp(0, 1, (t - 0.8) / 0.2);
+
     } else {
-      var t = (progress - 0.5) / 0.5;
-      // Phase 2: Karte 2 geht links, Karte 3 kommt zur Mitte
-      r0 = lerp(-45, -90, t); z0 = 1;
-      r1 = lerp(0, -45, t);   z1 = 2;
-      r2 = lerp(45, 0, t);    z2 = 3;
+      const t = (progress - 0.5) / 0.5;
+
+      r0 = lerp(-45, -90, t);
+      r1 = lerp(  0, -45, t);
+      r2 = lerp( 45,   0, t);
+
+      cards[0].style.zIndex = 1;
+      cards[1].style.zIndex = t > 0.5 ? 2 : 3;
+      cards[2].style.zIndex = t > 0.5 ? 3 : 2;
+
+      texts[0].style.opacity = 0;
+      texts[1].style.opacity = t < 0.4 ? 1 : lerp(1, 0, (t - 0.4) / 0.3);
+      texts[2].style.opacity = t < 0.4 ? 0 : lerp(0, 1, (t - 0.4) / 0.3);
+
+      if (popup) popup.style.opacity = t < 0.3 ? lerp(1, 0, t / 0.3) : 0;
     }
 
-    // Nur Transform + z-index – opacity bleibt immer 1 (per CSS)
-    cards[0].style.transform = 'translateX(-50%) rotate(' + r0 + 'deg)';
-    cards[0].style.zIndex    = z0;
-
-    cards[1].style.transform = 'translateX(-50%) rotate(' + r1 + 'deg)';
-    cards[1].style.zIndex    = z1;
-
-    cards[2].style.transform = 'translateX(-50%) rotate(' + r2 + 'deg)';
-    cards[2].style.zIndex    = z2;
-
-    // Texte: CSS-Transition übernimmt, JS schaltet nur 0/1
-    texts[0].style.opacity = progress < 0.5  ? '1' : '0';
-    texts[1].style.opacity = (progress >= 0.45 && progress < 0.9) ? '1' : '0';
-    texts[2].style.opacity = progress >= 0.85 ? '1' : '0';
+    cards[0].style.transform = `translateX(-50%) rotate(${r0}deg)`;
+    cards[1].style.transform = `translateX(-50%) rotate(${r1}deg)`;
+    cards[2].style.transform = `translateX(-50%) rotate(${r2}deg)`;
   }
 
-  // rAF-Throttling: maximal einmal pro Frame
-  var ticking = false;
-  window.addEventListener('scroll', function () {
+  let ticking = false;
+  window.addEventListener('scroll', () => {
     if (!ticking) {
-      requestAnimationFrame(function () { update(); ticking = false; });
+      requestAnimationFrame(() => { update(); ticking = false; });
       ticking = true;
     }
   }, { passive: true });

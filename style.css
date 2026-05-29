@@ -877,59 +877,31 @@ button {
 }
 
 /* ============================================================
-   How It Works – Scroll-Animation
+   How It Works – Rebuild
    ============================================================ */
 
-/* Section: Mobile auto, Desktop 300vh */
 #how-it-works {
-  position: relative;
+  width: 100%;
+  background: var(--c-bg);
+  overflow: hidden;
   height: auto;
 }
 
-/* Container – Mobile: normaler Fluss, Karten oben, Texte unten */
+/* Mobile: normaler Fluss */
 .how-sticky {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  padding: 4rem 1.25rem;
-  max-width: 1280px;
-  margin: 0 auto;
+  padding: 4rem 1.5rem;
 }
 
-/* Karten-Container – Mobile: normaler Fluss */
-.how-cards {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-/* Glow – Mobile: ausgeblendet */
-.how-glow {
-  display: none;
-  pointer-events: none;
-}
-
-/* Einzelne Karte – Mobile: aufrecht, sichtbar, normaler Fluss */
-.how-card {
-  width: min(280px, 85vw);
-}
-
-.how-card img {
-  width: 100%;
-  border-radius: 24px;
-  display: block;
-}
-
-/* Text-Spalte – Mobile: alle Blöcke sichtbar und gestapelt */
+/* --- Textblöcke (Mobile: alle sichtbar) --- */
 .how-text {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
-/* Textblock */
 .how-text-block {
   display: flex;
   flex-direction: column;
@@ -937,118 +909,398 @@ button {
   transition: opacity 300ms ease;
 }
 
-/* Schritt-Nummer */
 .how-step-num {
   font-family: var(--font-display);
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--c-primary);
   letter-spacing: 0.12em;
-  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.875rem;
 }
 
-/* Erklärungstext */
-.how-step-body {
-  font-size: 1.25rem;
-  font-weight: 600;
+.how-step-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f0f0f0;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.how-step-sub {
+  font-size: 1rem;
+  color: var(--c-text-muted);
+  line-height: 1.5;
+}
+
+/* --- Stage (Mobile: normaler Fluss) --- */
+.how-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.how-glow { display: none; pointer-events: none; }
+
+/* --- Karte (Mobile: normal) --- */
+.how-card {
+  width: min(285px, 88vw);
+  border-radius: 36px;
+  border: 1.5px solid rgba(217, 237, 146, 0.2);
+  background: #0f0f0f;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(217, 237, 146, 0.07);
+}
+
+.how-card__bar {
+  height: 32px;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.how-card__bar-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.how-card__bar-left svg { flex-shrink: 0; display: block; }
+
+.how-card__bar-left span {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-primary);
+}
+
+.how-card__bar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.how-card__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-primary);
+  flex-shrink: 0;
+  display: block;
+}
+
+.how-card__bar-right span:last-child {
+  font-size: 10px;
+  color: #555;
+}
+
+/* Begrüßungs-Chat (Karte 1) */
+.how-card__chat {
+  height: 380px;
+  overflow: hidden;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.how-card__chat--welcome {
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 14px;
+}
+
+.how-card__welcome-icon { flex-shrink: 0; display: block; }
+
+.how-card__welcome-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f0f0f0;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.how-card__welcome-sub {
+  font-size: 0.72rem;
+  color: var(--c-text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Chat-Nachrichten */
+.how-card__msg--user {
+  align-self: flex-end;
+  background: var(--c-primary);
+  color: #1a1a1a;
+  border-radius: 14px 14px 3px 14px;
+  font-size: 0.72rem;
+  padding: 7px 11px;
+  max-width: 82%;
+  line-height: 1.35;
+}
+
+.how-card__msg--wito {
+  align-self: flex-start;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  max-width: 92%;
+}
+
+.how-card__msg--wito p {
+  background: #1e1e1e;
   color: var(--c-text);
-  max-width: 34ch;
-  line-height: 1.45;
+  border-radius: 14px 14px 14px 3px;
+  font-size: 0.72rem;
+  padding: 7px 11px;
+  line-height: 1.35;
 }
 
-/* Desktop (1024px+): Sticky-Animation aktivieren */
+.how-card__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  background: rgba(217, 237, 146, 0.12);
+  margin-top: 2px;
+}
+
+.how-card__avatar svg { display: block; }
+
+/* Antwort-Pills */
+.how-card__replies {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.how-card__reply {
+  border: 1px solid var(--c-border-mid);
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  padding: 5px 13px;
+  color: var(--c-text);
+  background: var(--c-bg-elevated);
+  align-self: flex-start;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Chat-Verlauf Karte 3 */
+.how-card__chat--history { gap: 7px; }
+
+.how-card__chat--history .how-card__msg--user,
+.how-card__chat--history .how-card__msg--wito p {
+  font-size: 0.68rem;
+}
+
+/* Kalender-Bestätigungs-Icon */
+.how-card__confirm-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px auto 0;
+  color: var(--c-primary);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* Unterer Bereich */
+.how-card__bottom {
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.how-card__chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.how-card__chip {
+  border: 1px solid var(--c-border);
+  border-radius: 9999px;
+  font-size: 0.62rem;
+  padding: 3px 8px;
+  color: var(--c-text-muted);
+  background: var(--c-bg-elevated);
+  white-space: nowrap;
+}
+
+.how-card__input-row {
+  display: flex;
+  align-items: center;
+  background: var(--c-bg-elevated);
+  border-radius: 10px;
+  padding: 0 8px;
+  height: 34px;
+  gap: 6px;
+}
+
+.how-card__placeholder {
+  font-size: 0.7rem;
+  color: var(--c-text-subtle);
+  flex: 1;
+}
+
+.how-card__send {
+  background: var(--c-primary);
+  color: #1a1a1a;
+  border-radius: 7px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: none;
+  cursor: default;
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* Popup (Mobile: versteckt) */
+.how-popup { display: none; }
+
+/* ================================================================
+   Desktop (1024px+): Sticky-Fächer-Animation
+   ================================================================ */
 @media (min-width: 1024px) {
   #how-it-works {
     height: 300vh;
   }
 
-  /* Sticky-Container: kein Grid – children werden absolut positioniert */
   .how-sticky {
     position: sticky;
     top: 0;
     height: 100vh;
-    max-width: 1280px;
-    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
     padding: 0;
+    overflow: hidden;
   }
 
-  /* Karten-Container füllt den gesamten Sticky-Bereich → Karte zentriert auf der Seite */
-  .how-cards {
-    display: block;
-    position: absolute;
-    inset: 0;
-  }
-
-  /* Glow: immer sichtbar, keine Animation */
-  .how-glow {
-    display: block;
-    position: absolute;
-    width: 420px;
-    height: 420px;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(217, 237, 146, 0.10) 0%, transparent 65%);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  /* Karten: zentriert auf der Seite (left: 50% im vollen Container) */
-  .how-card {
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    width: 280px;
-    transform-origin: bottom center;
-  }
-
-  /* Startzustände – alle Karten 100% opacity */
-  .how-card--1 {
-    transform: translateX(-50%) rotate(0deg);
-    opacity: 1;
-    z-index: 3;
-  }
-
-  .how-card--2 {
-    transform: translateX(-50%) rotate(45deg);
-    opacity: 1;
-    z-index: 2;
-  }
-
-  .how-card--3 {
-    transform: translateX(-50%) rotate(90deg);
-    opacity: 1;
-    z-index: 1;
-  }
-
-  /* Text: links, absolut positioniert, schmaler als vorher */
+  /* Text-Spalte: 38%, vertikal zentriert */
   .how-text {
-    display: block;
-    position: absolute;
-    left: 2.5rem;
-    top: 18vh;
-    z-index: 10;
-    width: clamp(240px, 22vw, 300px);
+    width: 38%;
+    padding-left: 6%;
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0;
   }
 
-  /* Textblöcke übereinander, alle unsichtbar außer Block 1 */
   .how-text-block {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     opacity: 0;
-    gap: 0.75rem;
+    width: calc(100% - 6%);
   }
 
   .how-text-block[data-step="0"] {
     opacity: 1;
   }
 
-  /* Erklärungstext auf Desktop: volle Container-Breite nutzen */
-  .how-step-body {
-    max-width: 100%;
+  /* Karten-Stage: 62%, volle Höhe */
+  .how-stage {
+    width: 62%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0;
+    align-self: stretch;
+  }
+
+  /* Glow */
+  .how-glow {
+    display: block;
+    position: absolute;
+    bottom: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(217, 237, 146, 0.10) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Karten absolut positioniert, Drehpunkt unten-mitte */
+  .how-card {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    width: 285px;
+    transform-origin: bottom center;
+  }
+
+  /* Startzustände — nth-child: glow=1, k1=2, k2=3, k3=4 */
+  .how-stage > .how-card:nth-child(2) {
+    transform: translateX(-50%) rotate(0deg);
+    z-index: 3;
+  }
+
+  .how-stage > .how-card:nth-child(3) {
+    transform: translateX(-50%) rotate(45deg);
+    z-index: 2;
+  }
+
+  .how-stage > .how-card:nth-child(4) {
+    transform: translateX(-50%) rotate(90deg);
+    z-index: 1;
+  }
+
+  /* Popup */
+  .how-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: absolute;
+    top: 8%;
+    right: 3%;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 400ms ease;
+    background: var(--c-bg-elevated);
+    border: 1px solid var(--c-border-mid);
+    border-radius: 16px;
+    padding: 14px 16px;
+    min-width: 260px;
+    pointer-events: none;
+  }
+
+  .how-popup__pill {
+    border: 1.5px solid var(--c-primary);
+    border-radius: 9999px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    color: var(--c-text);
+    background: transparent;
+    text-align: center;
+    white-space: nowrap;
   }
 }
 
