@@ -1245,3 +1245,52 @@ Für die Texte ist eine sanfte Überblendung (300ms) angenehmer als ein hartes E
 | JS-Scope | globale Variablen | IIFE (sauber gekapselt) |
 
 ---
+
+## 29.05.2026 – #how-it-works Layout-Korrektur: Karten zentriert, Text schmaler, Opacity 1
+
+### Was wurde gemacht
+
+Drei Korrekturen basierend auf dem Design-Screenshot:
+
+1. **Karten komplett mittig**: Grid-Layout (`1fr 1fr`) durch absolutes Positioning ersetzt. `.how-cards { position: absolute; inset: 0; }` füllt den gesamten Sticky-Bereich. Karten bei `left: 50%` + `translateX(-50%)` sind damit auf der vollen Seitenbreite zentriert — nicht nur in einer halben Spalte.
+2. **Text schmaler**: `.how-text` ist jetzt `position: absolute; left: 2.5rem; top: 18vh; width: clamp(240px, 22vw, 300px)`. Kein Grid mehr → Text sitzt links, Karten können dahinter/davor frei fächern.
+3. **Opacity 1 für alle Karten**: CSS-Startzustände auf `opacity: 1` geändert. JS setzt keine Opacity mehr — nur noch `transform` und `z-index` werden animiert.
+
+---
+
+### HTML/CSS/JS Konzept
+
+#### `position: absolute; inset: 0;` vs. `position: relative; height: 100%;`
+
+Vorher: `.how-cards` war in einem Grid mit `position: relative; height: 100%`. Die Karten bei `left: 50%` waren zentriert in der rechten Grid-Spalte (≈ 75% der Seitenbreite).
+
+Nachher: `.how-cards { position: absolute; inset: 0; }` — `inset: 0` ist eine Kurzform für `top: 0; right: 0; bottom: 0; left: 0`. Der Container füllt seinen positioning context (`.how-sticky`). Karten bei `left: 50%` sind jetzt zentriert in 100% der Seitenbreite. ✓
+
+#### Warum kein Grid mehr?
+
+Grid erzwingt, dass Text und Karten in separaten Spalten leben. Für dieses Design soll der Text aber links *über* den Karten schweben — das geht nur mit absoluter Positionierung beider Elemente. Beide sind jetzt absolut positioniert:
+- `.how-text`: oben-links fixiert (`left: 2.5rem; top: 18vh`)
+- `.how-cards`: füllt den gesamten Container (`inset: 0`)
+
+#### `clamp(240px, 22vw, 300px)` für die Textbreite
+
+`clamp(min, bevorzugt, max)` wählt den mittleren Wert, sofern er zwischen min und max liegt:
+- Auf kleinen Desktops (1024px): `22vw = 225px` → kleiner als min → Ergebnis: `240px`
+- Auf mittleren (1100px): `22vw = 242px` → zwischen min und max → Ergebnis: `242px`
+- Auf großen Screens (≥1365px): `22vw ≥ 300px` → größer als max → Ergebnis: `300px`
+
+Das gibt eine schmale Textspalte, die auf kleinen Desktops nicht zu eng wird.
+
+---
+
+### Vorher / Nachher
+
+| Bereich | Vorher | Nachher |
+|---------|--------|---------|
+| Layout-Methode | CSS Grid `1fr 1fr` | Absolute Positionierung |
+| Karten-Zentrierung | In rechter Spalte (≈ 75% der Breite) | Auf voller Seitenbreite (50%) |
+| Textbreite | 50% Viewport-Breite | max. 300px (clamp) |
+| Karten-Opacity | 1.0 / 0.6 / 0.3 (gestaffelt) | 1.0 für alle |
+| Opacity in JS | `lerp(1, 0.3, t)` etc. | Entfernt — nur Transform + z-index |
+
+---

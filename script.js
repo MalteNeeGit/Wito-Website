@@ -158,33 +158,30 @@
       (window.scrollY - section.offsetTop) / (section.offsetHeight - window.innerHeight)
     ));
 
-    var r0, r1, r2, o0, o1, o2, z0, z1, z2;
+    var r0, r1, r2, z0, z1, z2;
 
     if (progress <= 0.5) {
       var t = progress / 0.5;
       // Phase 1: Karte 1 geht links, Karte 2 kommt zur Mitte, Karte 3 rückt nach
-      r0 = lerp(0, -45, t);   o0 = lerp(1, 0.3, t);   z0 = 2;
-      r1 = lerp(45, 0, t);    o1 = lerp(0.6, 1, t);   z1 = 3;
-      r2 = lerp(90, 45, t);   o2 = lerp(0.3, 0.6, t); z2 = 1;
+      r0 = lerp(0, -45, t);   z0 = 2;
+      r1 = lerp(45, 0, t);    z1 = 3;
+      r2 = lerp(90, 45, t);   z2 = 1;
     } else {
       var t = (progress - 0.5) / 0.5;
       // Phase 2: Karte 2 geht links, Karte 3 kommt zur Mitte
-      r0 = lerp(-45, -90, t); o0 = lerp(0.3, 0, t);   z0 = 1;
-      r1 = lerp(0, -45, t);   o1 = lerp(1, 0.3, t);   z1 = 2;
-      r2 = lerp(45, 0, t);    o2 = lerp(0.6, 1, t);   z2 = 3;
+      r0 = lerp(-45, -90, t); z0 = 1;
+      r1 = lerp(0, -45, t);   z1 = 2;
+      r2 = lerp(45, 0, t);    z2 = 3;
     }
 
-    // Transform direkt setzen – kein CSS transition auf transform
+    // Nur Transform + z-index – opacity bleibt immer 1 (per CSS)
     cards[0].style.transform = 'translateX(-50%) rotate(' + r0 + 'deg)';
-    cards[0].style.opacity   = o0;
     cards[0].style.zIndex    = z0;
 
     cards[1].style.transform = 'translateX(-50%) rotate(' + r1 + 'deg)';
-    cards[1].style.opacity   = o1;
     cards[1].style.zIndex    = z1;
 
     cards[2].style.transform = 'translateX(-50%) rotate(' + r2 + 'deg)';
-    cards[2].style.opacity   = o2;
     cards[2].style.zIndex    = z2;
 
     // Texte: CSS-Transition übernimmt, JS schaltet nur 0/1
