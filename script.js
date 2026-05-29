@@ -146,7 +146,6 @@
 
   const cards = section.querySelectorAll('.how-stage > .how-card');
   const texts = section.querySelectorAll('.how-text-block');
-  const popup = section.querySelector('.how-popup');
   if (cards.length < 3 || texts.length < 3) return;
 
   const lerp  = (a, b, t) => a + (b - a) * t;
@@ -177,8 +176,6 @@
       texts[1].style.opacity = t < 0.6 ? 0 : lerp(0, 1, (t - 0.6) / 0.4);
       texts[2].style.opacity = 0;
 
-      if (popup) popup.style.opacity = t < 0.8 ? 0 : lerp(0, 1, (t - 0.8) / 0.2);
-
     } else {
       const t = (progress - 0.5) / 0.5;
 
@@ -193,8 +190,6 @@
       texts[0].style.opacity = 0;
       texts[1].style.opacity = t < 0.4 ? 1 : lerp(1, 0, (t - 0.4) / 0.3);
       texts[2].style.opacity = t < 0.4 ? 0 : lerp(0, 1, (t - 0.4) / 0.3);
-
-      if (popup) popup.style.opacity = t < 0.3 ? lerp(1, 0, t / 0.3) : 0;
     }
 
     cards[0].style.transform = `translateX(-50%) rotate(${r0}deg)`;
