@@ -1294,3 +1294,61 @@ Das gibt eine schmale Textspalte, die auf kleinen Desktops nicht zu eng wird.
 | Opacity in JS | `lerp(1, 0.3, t)` etc. | Entfernt — nur Transform + z-index |
 
 ---
+
+## 29.05.2026 – #how-it-works Komplett-Rebuild: UI-Mockup-Karten
+
+### Was wurde gemacht
+
+Die Section wurde von Grund auf neu gebaut. Statt `<img>`-Karten sind die 3 Zustände jetzt als **gebaute UI-Mockups** direkt in HTML/CSS vorhanden — exakt nach den Design-Screenshots.
+
+**Karte 1 – Begrüßung:** Wito-Icon + Headline "Hallo Malte..." + 3 Chip-Pills + Input-Zeile.
+**Karte 2 – Chat:** Nutzer-Bubble (grün, rechts) + Wito-Antwort (dunkel, links, mit Avatar) + 3 Antwort-Pills.
+**Karte 3 – Bestätigung:** Volle Chathistorie + Kalender-Checkmark-Icon.
+**Popup:** Erscheint am Ende von Phase 1 (oben rechts in der Stage) mit 3 Auswahloptionen.
+
+**Animationslogik:**
+- Phase 1 (0→0.5): Text 1→2 mit `lerp`, Popup faded ein (t>0.8), Karte 2 kommt nach vorne
+- Phase 2 (0.5→1): Text 2→3, Popup faded aus, Karte 3 kommt nach vorne
+- `opacity` der Texte wird per `lerp` interpoliert (nicht nur 0/1)
+
+---
+
+### HTML/CSS/JS Konzept
+
+#### `nth-child` für Karten-Startzustände
+
+```css
+/* Im Stage: child 1 = .how-glow, child 2/3/4 = Karten */
+.how-stage > .how-card:nth-child(2) { transform: translateX(-50%) rotate(0deg);  z-index: 3; }
+.how-stage > .how-card:nth-child(3) { transform: translateX(-50%) rotate(45deg); z-index: 2; }
+.how-stage > .how-card:nth-child(4) { transform: translateX(-50%) rotate(90deg); z-index: 1; }
+```
+
+`nth-child(n)` wählt das n-te Kind im Parent. Da `.how-glow` das erste Kind ist, beginnen die Karten bei `:nth-child(2)`. Dieser CSS-Selektor setzt die visuellen Startzustände, bevor JS überhaupt läuft.
+
+#### `lerp` für Text-Opacity (sanfte Überblendung)
+
+Statt hartem 0/1-Schalten wird die Opacity des Texts interpoliert:
+
+```js
+// Text 1 faded aus wenn t > 0.6 (innerhalb Phase 1)
+texts[0].style.opacity = t < 0.6 ? 1 : lerp(1, 0, (t - 0.6) / 0.4);
+// Text 2 faded ein wenn t > 0.6
+texts[1].style.opacity = t < 0.6 ? 0 : lerp(0, 1, (t - 0.6) / 0.4);
+```
+
+`(t - 0.6) / 0.4` normalisiert den Bereich [0.6, 1.0] auf [0, 1] — das ist ein lokales `t` innerhalb des Überblendungsbereichs.
+
+#### Popup-Animation
+
+Das Popup erscheint am Ende von Phase 1 (t > 0.8) und verschwindet am Anfang von Phase 2 (t < 0.3):
+
+```js
+// Phase 1: fade-in nach 80%
+popup.style.opacity = t < 0.8 ? 0 : lerp(0, 1, (t - 0.8) / 0.2);
+
+// Phase 2: fade-out bis 30%
+popup.style.opacity = t < 0.3 ? lerp(1, 0, t / 0.3) : 0;
+```
+
+---
