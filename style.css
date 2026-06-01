@@ -869,23 +869,28 @@ button {
    ===================================================== */
 .step-scroll {
   background: var(--c-bg);
-  padding: 0 1rem;
+  padding: 5rem 1rem 0;
 }
 
-/* Abschnitts-Header: linksbündig, max-width wie der Track */
+/* Abschnitts-Header: zentriert, max-width wie der Track */
 .step-scroll__header {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 5rem 0 3rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 1rem;
 }
 
 @media (max-width: 767px) {
+  .step-scroll {
+    padding-top: 3.5rem;
+  }
+
   .step-scroll__header {
-    padding: 3.5rem 0 2rem;
+    padding-bottom: 2rem;
   }
 }
 
