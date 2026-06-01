@@ -109,19 +109,8 @@
         <!-- Rechte Spalte: Wito Maskottchen -->
         <div class="hero__visual" aria-label="Wito Illustration">
 
-          <!-- Wito Maskottchen kommt hier -->
-          <div class="hero__mascot-placeholder">
-            <div class="hero__mascot-inner">
-              <!-- Platzhalter-Icon (Zahnmaskottchen) -->
-              <svg class="hero__mascot-icon" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-                <line x1="9" y1="9" x2="9.01" y2="9" stroke-width="3"/>
-                <line x1="15" y1="9" x2="15.01" y2="9" stroke-width="3"/>
-              </svg>
-              <span class="hero__mascot-label">Wito Maskottchen kommt hier</span>
-            </div>
-          </div>
+          <!-- Wito Hero-Video -->
+          <video class="hero__mascot-video" src="assets/videos/wito_header.mp4" autoplay loop muted playsinline preload="auto" aria-label="Wito Maskottchen Animation"></video>
 
           <!-- Schwebende UI-Karten (dekorativ) -->
           <div class="hero__float hero__float--1" aria-hidden="true">
@@ -262,6 +251,23 @@
               class="step-scroll__slide step-scroll__slide--3"
               loading="lazy"
             >
+
+            <!-- Rechte-Seite-Maske: nur für Schritt 3 aktiv -->
+            <div class="step-mask--3" aria-hidden="true"></div>
+
+            <!-- Text-Overlays: gespiegelt aus den Originalbildern -->
+            <div class="step-text step-text--1 is-active">
+              <span class="step-text__label">Schritt 1</span>
+              <p class="step-text__body">Mit Wito wird die Terminbuchung einfach&nbsp;– dein KI-Assistent startet sofort!</p>
+            </div>
+            <div class="step-text step-text--2">
+              <span class="step-text__label">Schritt 2</span>
+              <p class="step-text__body">Schreib dein Anliegen oder wähl aus vorgeschlagenen Antworten&nbsp;– Wito versteht beides.</p>
+            </div>
+            <div class="step-text step-text--3">
+              <span class="step-text__label">Schritt 3</span>
+              <p class="step-text__body">Nach 2–3 Fragen kennt Wito die Dringlichkeit und bucht den Termin direkt in den Kalender.</p>
+            </div>
           </div>
           <div class="step-scroll__indicators" aria-hidden="true">
             <span class="step-scroll__dot is-active"></span>
@@ -275,6 +281,90 @@
     <!-- Weitere Sektionen folgen hier -->
 
   </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+
+      <!-- Oberer Bereich: 4 Spalten -->
+      <div class="footer__grid">
+
+        <!-- Spalte 1: Marke -->
+        <div class="footer__brand">
+          <img src="brand_assets/logos/LOGO.svg" height="36" alt="Wito Logo">
+          <p class="footer__tagline">Der KI-Assistent der Zahnarztpraxen entlastet.</p>
+          <span class="footer__trust">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            DSGVO-konform · Made in Germany
+          </span>
+        </div>
+
+        <!-- Spalte 2: Produkt -->
+        <div class="footer__col">
+          <h3 class="footer__col-title">Produkt</h3>
+          <a href="#features" class="footer__link">Features</a>
+          <a href="#praxen" class="footer__link">Für Praxen</a>
+          <a href="#preise" class="footer__link">Preise</a>
+          <a href="#demo" class="footer__link">Demo testen</a>
+        </div>
+
+        <!-- Spalte 3: Unternehmen -->
+        <div class="footer__col">
+          <h3 class="footer__col-title">Unternehmen</h3>
+          <a href="#ueber-uns" class="footer__link">Über uns</a>
+          <a href="#blog" class="footer__link">Blog</a>
+          <a href="#karriere" class="footer__link">Karriere</a>
+          <a href="#kontakt" class="footer__link">Kontakt</a>
+        </div>
+
+        <!-- Spalte 4: Rechtliches -->
+        <div class="footer__col">
+          <h3 class="footer__col-title">Rechtliches</h3>
+          <a href="#datenschutz" class="footer__link">Datenschutz</a>
+          <a href="#impressum" class="footer__link">Impressum</a>
+          <a href="#agb" class="footer__link">AGB</a>
+          <a href="#cookies" class="footer__link">Cookie-Einstellungen</a>
+        </div>
+
+      </div>
+
+      <!-- Untere Zeile: Copyright + Social Icons -->
+      <div class="footer__bottom">
+        <span class="footer__copy">© 2026 Wito. Alle Rechte vorbehalten.</span>
+        <div class="footer__socials">
+
+          <!-- LinkedIn -->
+          <a href="#" class="footer__social-link" aria-label="Wito auf LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect width="4" height="12" x="2" y="9"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+
+          <!-- Twitter / X -->
+          <a href="#" class="footer__social-link" aria-label="Wito auf X (Twitter)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+            </svg>
+          </a>
+
+          <!-- Instagram -->
+          <a href="#" class="footer__social-link" aria-label="Wito auf Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="3"/>
+            </svg>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>

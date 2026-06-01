@@ -454,38 +454,19 @@ button {
   animation: fadeSlideUp var(--dur-slow) var(--ease) 160ms both;
 }
 
-/* Maskottchen-Platzhalter */
-.hero__mascot-placeholder {
+/* Hero-Video */
+.hero__mascot-video {
   width: 100%;
   max-width: 500px;
-  aspect-ratio: 4 / 3;
-  background-color: var(--c-bg-card);
-  border: 2px dashed var(--c-border-mid);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.hero__mascot-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.875rem;
-  text-align: center;
-  padding: 2rem;
-}
-
-.hero__mascot-icon {
-  color: var(--c-text-subtle);
-  opacity: 0.7;
-}
-
-.hero__mascot-label {
-  font-size: 0.8125rem;
-  color: var(--c-text-subtle);
-  font-style: italic;
+  display: block;
+  -webkit-mask-image:
+    linear-gradient(to right,  transparent 0%, black 12%, black 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right,  transparent 0%, black 12%, black 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  mask-composite: intersect;
 }
 
 /* Schwebende UI-Karten – auf Mobile versteckt */
@@ -920,7 +901,7 @@ button {
   flex-shrink: 0;
 }
 
-/* Gradient-Maske: links, rechts und oben fließend ausblenden */
+/* Gradient-Maske: links, rechts, oben – Text-Overlays liegen darüber (z-index: 30) */
 .step-scroll__frame::before {
   content: '';
   position: absolute;
@@ -928,8 +909,8 @@ button {
   z-index: 20;
   pointer-events: none;
   background:
-    linear-gradient(to right, var(--c-bg) 0%, transparent 10%, transparent 90%, var(--c-bg) 100%),
-    linear-gradient(to bottom, var(--c-bg) 0%, transparent 22%);
+    linear-gradient(to right, var(--c-bg) 0%, transparent 12%, transparent 88%, var(--c-bg) 100%),
+    linear-gradient(to bottom, var(--c-bg) 0%, transparent 20%);
 }
 
 .step-scroll__slide {
@@ -971,6 +952,87 @@ button {
   background: var(--c-primary);
 }
 
+/* ---- Rechte-Seite-Maske (nur Schritt 3) ---- */
+.step-mask--3 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 62%;
+  z-index: 25;
+  pointer-events: none;
+  /* Stärker am rechten Rand damit kein Bleed-through von zustand2 sichtbar ist */
+  background: linear-gradient(to right, transparent 0%, rgba(26, 26, 26, 0.88) 100%);
+  opacity: 0;
+  transition: opacity 0.65s ease;
+}
+
+.step-mask--3.is-active {
+  opacity: 1;
+}
+
+/* ---- Text-Overlays ---- */
+
+/* Basis: unsichtbar, von unten + blur kommend */
+.step-text {
+  position: absolute;
+  z-index: 30;
+  max-width: clamp(160px, 26%, 270px);
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(5px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+/* Einblenden: nach oben gleiten, blur auflösen */
+.step-text.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+  transition-delay: 0.1s;
+}
+
+/* Schritt 1: oben links */
+.step-text--1 {
+  left: 5%;
+  top: 12%;
+}
+
+/* Schritt 2: unten links */
+.step-text--2 {
+  left: 5%;
+  bottom: 18%;
+}
+
+/* Schritt 3: oben rechts */
+.step-text--3 {
+  right: 5%;
+  top: 10%;
+}
+
+.step-text__label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(0.68rem, 1.3vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  margin-bottom: 0.45rem;
+}
+
+.step-text__body {
+  font-family: var(--font-sans);
+  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--c-text);
+}
+
 /* Schritt-Scroll – Tablet */
 @media (min-width: 768px) {
   .step-scroll {
@@ -978,6 +1040,9 @@ button {
   }
   .step-scroll__frame {
     height: clamp(240px, 55vh, 600px);
+  }
+  .step-text {
+    max-width: clamp(190px, 24%, 280px);
   }
 }
 
@@ -988,6 +1053,133 @@ button {
   }
   .step-scroll__frame {
     height: clamp(280px, 58vh, 680px);
+  }
+  .step-text {
+    max-width: 280px;
+  }
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.footer {
+  background: var(--c-bg-elevated);
+  border-top: 1px solid var(--c-border);
+  padding: 4rem 2rem 2rem;
+}
+
+.footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Oberes Raster: 4 Spalten Desktop */
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Spalte 1 – Marke */
+.footer__brand img {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.footer__tagline {
+  color: var(--c-text-muted);
+  font-size: 0.875rem;
+  max-width: 22ch;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.footer__trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--c-text-subtle);
+}
+
+/* Spalten 2–4 – Link-Gruppen */
+.footer__col-title {
+  color: var(--c-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+}
+
+.footer__link {
+  display: block;
+  color: var(--c-text-muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+  padding: 0.25rem 0;
+  transition: color 150ms ease;
+}
+
+.footer__link:hover {
+  color: var(--c-text);
+}
+
+/* Trennlinie + untere Zeile */
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--c-border);
+  padding-top: 1.5rem;
+}
+
+.footer__copy {
+  color: var(--c-text-subtle);
+  font-size: 0.8rem;
+}
+
+.footer__socials {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer__social-link {
+  display: flex;
+  color: var(--c-text-subtle);
+  transition: color 150ms ease;
+}
+
+.footer__social-link:hover {
+  color: var(--c-primary);
+}
+
+/* Tablet: 2 Spalten */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .footer__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Mobile: 1 Spalte */
+@media (max-width: 767px) {
+  .footer {
+    padding: 3rem 1.25rem 1.5rem;
+  }
+
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
   }
 }
 

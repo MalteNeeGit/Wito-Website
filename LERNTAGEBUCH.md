@@ -4,6 +4,88 @@ Dieses Tagebuch dokumentiert alle Änderungen an `index.html`, `style.css` und `
 
 ---
 
+## 01.06.2026 – Footer mit 4-Spalten-Grid, Copyright-Zeile und Social Icons
+
+### Was wurde gemacht
+
+Neuer `<footer>` direkt nach `</main>` in `index.html` eingefügt. Dazugehörige CSS-Regeln am Ende von `style.css` ergänzt.
+
+**Struktur:**
+- `.footer__grid` — CSS Grid mit 4 gleichbreiten Spalten (Desktop), 2 Spalten (Tablet ≥ 768 px), 1 Spalte (Mobile < 768 px)
+- Spalte 1 (`.footer__brand`): Logo-`<img>`, Tagline-`<p>`, Trust-Badge mit Schild-SVG
+- Spalten 2–4 (`.footer__col`): Überschrift (`.footer__col-title`) + 4 Anker-Links (`.footer__link`)
+- `.footer__bottom`: Copyright links, 3 Social-SVG-Links rechts, getrennt durch `border-top`
+
+**CSS-Highlights:**
+- `background: var(--c-bg-elevated)` + `border-top: 1px solid var(--c-border)` grenzt Footer vom Rest ab
+- `padding: 4rem 2rem 2rem` Desktop → `3rem 1.25rem 1.5rem` Mobile
+- Link-Hover: `color: var(--c-text-muted)` → `var(--c-text)`, Social-Hover → `var(--c-primary)`
+- Mobile: `.footer__bottom` wechselt zu `flex-direction: column` damit Copyright und Icons gestapelt werden
+
+---
+
+### HTML/CSS Konzept
+
+**CSS Grid mit `repeat(4, 1fr)`** — `1fr` bedeutet „1 freier Anteil". Vier gleich-breite Spalten teilen den verfügbaren Platz gleichmäßig auf. Mit einem einzigen Media-Query-Wechsel auf `repeat(2, 1fr)` oder `1fr` reagiert das Raster auf kleinere Bildschirme.
+
+**`max-width: 22ch`** — `ch` entspricht der Breite des Zeichens „0" in der aktuellen Schrift. 22ch begrenzt den Kurztext auf ca. 22 Zeichen pro Zeile — eine bewährte Länge für gute Lesbarkeit.
+
+**`text-transform: uppercase` + `letter-spacing: 0.08em`** — klassisches Rezept für dezente Abschnittsüberschriften ohne eigene Farbe; wirkt professionell ohne dominante H2/H3-Hierarchie.
+
+**SVG-Icons direkt inline** — kein Font-Awesome, kein CDN. Die SVGs werden im HTML eingebettet und erben `stroke="currentColor"`, d.h. sie übernehmen automatisch die CSS-`color`-Eigenschaft des Elternelements — Hover-Farben funktionieren daher ohne zusätzliches CSS auf dem SVG selbst.
+
+---
+
+## 01.06.2026 – Hero-Video: Rand-Maske für fließenden Hintergrundübergang
+
+### Was wurde gemacht
+
+Das Hero-Video bekommt an allen vier Kanten einen weichen Verlauf, der das Video nahtlos in den dunklen Hintergrund (`#1a1a1a`) übergehen lässt. `border-radius` wurde entfernt – die Maske übernimmt die Kantenbehandlung vollständig.
+
+**style.css – `.hero__mascot-video`:**
+- `border-radius: 20px` entfernt
+- `mask-image` mit zwei `linear-gradient`-Ebenen ergänzt: eine horizontal (links/rechts ausblenden) und eine vertikal (oben/unten ausblenden)
+- `mask-composite: intersect` kombiniert beide Ebenen per Schnittmenge, sodass alle vier Ecken weich auslaufen
+- `-webkit-`-Präfix für Safari/Chrome ergänzt (`-webkit-mask-composite: source-in` – Safari-Äquivalent zu `intersect`)
+
+---
+
+### HTML/CSS Konzept
+
+**`mask-image`** – Statt den Inhalt mit einer farbigen Überlagerung abzudecken, beschneidet die Maske die Deckkraft des Elements selbst. `black` = vollständig sichtbar, `transparent` = vollständig unsichtbar.
+
+**Zwei Gradienten + `mask-composite: intersect`** – Jeder Gradient blendet eine Achse aus. Die Schnittmenge beider Masken sorgt dafür, dass ein Pixel nur dann sichtbar ist, wenn er in *beiden* Masken sichtbar wäre – alle vier Ecken und Kanten werden so gleichmäßig weich.
+
+**`12% / 88%`** – Die harten Bereiche der Maske beginnen bei 12 % und enden bei 88 % der jeweiligen Achse. Die äußersten 12 % auf jeder Seite laufen transparent aus.
+
+---
+
+## 01.06.2026 – Hero-Video ersetzt Maskottchen-Platzhalter
+
+### Was wurde gemacht
+
+Der bisherige Platzhalter-Block (`div.hero__mascot-placeholder` mit SVG-Icon und Label-Text) in der rechten Spalte der Hero-Section wurde durch ein echtes `<video>`-Element ersetzt.
+
+**index.html:**
+- `div.hero__mascot-placeholder` (inkl. `div.hero__mascot-inner`, SVG-Icon, `span.hero__mascot-label`) entfernt
+- Neues `<video class="hero__mascot-video">` mit `src="assets/videos/wito_header.mp4"`, `autoplay`, `loop`, `muted`, `playsinline`, `preload="auto"` eingefügt
+
+**style.css:**
+- Alte Platzhalter-Regeln entfernt: `.hero__mascot-placeholder`, `.hero__mascot-inner`, `.hero__mascot-icon`, `.hero__mascot-label`
+- Neue Regel `.hero__mascot-video` ergänzt: `width: 100%; max-width: 500px; border-radius: 20px; display: block`
+
+---
+
+### HTML/CSS Konzept
+
+**`<video autoplay loop muted playsinline>`** – Das `muted`-Attribut ist Pflicht damit Browser Autoplay erlauben. `playsinline` verhindert, dass iOS-Safari das Video im Vollbild öffnet. `preload="auto"` lädt das Video sofort vor, damit es ohne Verzögerung startet.
+
+**`display: block`** – Videos sind inline-Elemente und bekommen dadurch ungewollten Leeraum unterhalb. `display: block` entfernt diesen Gap.
+
+**`max-width: 500px`** – Begrenzt die Videogröße auf Desktop, damit es dieselbe visuelle Größe wie der alte Platzhalter hat. Auf Mobile nimmt es mit `width: 100%` die volle Spaltenbreite ein.
+
+---
+
 ## 27.05.2026 – Favicon, Logo, Headline & Responsive Schriftgröße
 
 ### Was wurde gemacht
