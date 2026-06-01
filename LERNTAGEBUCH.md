@@ -4,6 +4,36 @@ Dieses Tagebuch dokumentiert alle Änderungen an `index.html`, `style.css` und `
 
 ---
 
+## 01.06.2026 – Feature-Karten tauschen + Scroll-Sektion mit Header
+
+### Was wurde gemacht
+
+**Feature-Karten neu sortiert (`index.html`):**
+- Karte 1: Triage-Chat (war Karte 2)
+- Karte 2: Foto-Analyse (war Karte 1)
+- Karte 3: Direkte Buchung (unverändert)
+- `data-reveal-delay`-Werte entsprechend angepasst (1, 2, 3)
+
+**Schritt-Scroll-Sektion: Überschriften-Block ergänzt (`index.html`):**
+- Neues `<div class="step-scroll__header">` direkt vor `.step-scroll__track` eingefügt
+- Enthält: `section-badge` mit "Ablauf", `<h2>` "Der Chatbot, der Ihre Praxis kennt", `<p>` mit RAG-Erklärtext
+- Nutzt bestehende Klassen `.features__headline` und `.features__subheadline` für konsistente Typografie
+
+**Neues CSS (`.step-scroll__header`):**
+- `align-items: flex-start` statt `center` → linksbündige Ausrichtung
+- `max-width: 1200px; margin: 0 auto` → fluchtet mit dem Scroll-Track darunter
+- `padding: 5rem 0 3rem` Desktop, `3.5rem 0 2rem` Mobile
+
+---
+
+### HTML/CSS Konzept
+
+**Reihenfolge im DOM = Reihenfolge im Grid** – CSS Grid platziert Kinder in der Quellreihenfolge. Die Reihenfolge der Karten zu ändern bedeutet also einfach, die `<article>`-Blöcke im HTML zu tauschen.
+
+**Klassenwiederverwendung** – `.features__headline` und `.features__subheadline` sind reine Typografie-Klassen ohne Positionierung. Indem `.step-scroll__header` mit `align-items: flex-start` den Kontext setzt, erbt die Überschrift die Schriftgröße aus den Features, wird aber linksbündig dargestellt — kein doppeltes CSS nötig.
+
+---
+
 ## 01.06.2026 – Footer mit 4-Spalten-Grid, Copyright-Zeile und Social Icons
 
 ### Was wurde gemacht

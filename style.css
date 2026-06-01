@@ -872,6 +872,23 @@ button {
   padding: 0 1rem;
 }
 
+/* Abschnitts-Header: linksbündig, max-width wie der Track */
+.step-scroll__header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 0 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+@media (max-width: 767px) {
+  .step-scroll__header {
+    padding: 3.5rem 0 2rem;
+  }
+}
+
 .step-scroll__track {
   height: 260vh;
   position: relative;

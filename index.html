@@ -177,8 +177,22 @@
         <!-- Feature-Karten Grid -->
         <div class="features__grid">
 
-          <!-- Karte 1: Foto-Analyse -->
+          <!-- Karte 1: Triage-Chat -->
           <article class="feature-card" data-reveal data-reveal-delay="1">
+            <div class="feature-card__icon" aria-hidden="true">
+              <!-- Chat-Icon (Lucide) -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Triage-Chat</h3>
+            <p class="feature-card__description">
+              Patient beschreibt sein Problem im Chat – Wito leitet ihn zur richtigen Terminart weiter, ohne Wartezeit am Telefon.
+            </p>
+          </article>
+
+          <!-- Karte 2: Foto-Analyse -->
+          <article class="feature-card" data-reveal data-reveal-delay="2">
             <div class="feature-card__icon" aria-hidden="true">
               <!-- Kamera-Icon (Lucide) -->
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
@@ -189,20 +203,6 @@
             <h3 class="feature-card__title">Foto-Analyse</h3>
             <p class="feature-card__description">
               Patient fotografiert seinen Mund – die KI bewertet die Dringlichkeit und schlägt den passenden Termintyp vor.
-            </p>
-          </article>
-
-          <!-- Karte 2: Triage-Chat -->
-          <article class="feature-card" data-reveal data-reveal-delay="2">
-            <div class="feature-card__icon" aria-hidden="true">
-              <!-- Chat-Icon (Lucide) -->
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-            </div>
-            <h3 class="feature-card__title">Triage-Chat</h3>
-            <p class="feature-card__description">
-              Patient beschreibt sein Problem im Chat – Wito leitet ihn zur richtigen Terminart weiter, ohne Wartezeit am Telefon.
             </p>
           </article>
 
@@ -229,7 +229,17 @@
     </section>
 
     <!-- Schritt-Scroll-Animation -->
-    <section class="step-scroll" id="wie-es-funktioniert" aria-label="Wie Wito funktioniert">
+    <section class="step-scroll" id="wie-es-funktioniert" aria-labelledby="step-scroll-headline">
+
+      <!-- Abschnitts-Header -->
+      <div class="step-scroll__header" data-reveal>
+        <div class="section-badge">Ablauf</div>
+        <h2 class="features__headline" id="step-scroll-headline">Der Chatbot, der Ihre Praxis&nbsp;kennt</h2>
+        <p class="features__subheadline">
+          Wito wird per RAG mit dem Wissen Ihrer Praxis gefüttert – Leistungen, Behandler, Öffnungszeiten und FAQs. So beantwortet der Chatbot Patientenfragen präzise und bucht passende Termine, ohne dass Ihr Team eingreifen muss.
+        </p>
+      </div>
+
       <div class="step-scroll__track">
         <div class="step-scroll__sticky">
           <div class="step-scroll__frame">
