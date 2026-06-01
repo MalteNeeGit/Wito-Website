@@ -7,7 +7,9 @@
       "Bash(head -878 \"/Users/malteneemann/Desktop/Wito Website/style.css\")",
       "Bash(mv /tmp/style_clean.css \"/Users/malteneemann/Desktop/Wito Website/style.css\")",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git reset *)",
+      "Bash(git checkout *)"
     ]
   }
 }

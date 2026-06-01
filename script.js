@@ -146,6 +146,8 @@
   var slide2 = document.querySelector('.step-scroll__slide--2');
   var slide3 = document.querySelector('.step-scroll__slide--3');
   var dots = document.querySelectorAll('.step-scroll__dot');
+  var texts = document.querySelectorAll('.step-text');
+  var mask3 = document.querySelector('.step-mask--3');
   if (!track || !slide2 || !slide3) return;
 
   function invlerp(a, b, v) {
@@ -155,7 +157,7 @@
   var targetO2 = 0, targetO3 = 0;
   var currentO2 = 0, currentO3 = 0;
   var rafId = null;
-  var activeStep = 0;
+  var activeStep = -1;
 
   function setStep(step) {
     if (step === activeStep) return;
@@ -163,6 +165,10 @@
     dots.forEach(function (dot, i) {
       dot.classList.toggle('is-active', i === step);
     });
+    texts.forEach(function (text, i) {
+      text.classList.toggle('is-active', i === step);
+    });
+    if (mask3) mask3.classList.toggle('is-active', step === 2);
   }
 
   function render() {
