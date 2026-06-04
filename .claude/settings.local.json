@@ -9,7 +9,24 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(git reset *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(ffmpeg -version)",
+      "Bash(brew install *)",
+      "Bash(convert -version)",
+      "Bash(python3.11 --version)",
+      "Bash(python3.11 -m venv /tmp/rembg11)",
+      "Bash(/tmp/rembg11/bin/pip install *)",
+      "Bash(brew list *)",
+      "Read(//usr/local/opt/llvm/bin/**)",
+      "Bash(rm -rf /tmp/rembg_env /tmp/rembg11)",
+      "Bash(python3 -c \"from PIL import Image; print\\('Pillow ok'\\)\")",
+      "Bash(pip3 install *)",
+      "Bash(python3.11 -m pip install Pillow -q)",
+      "Bash(python3.11 -c \"from PIL import Image; print\\('ok'\\)\")",
+      "Bash(magick zustand1.png -alpha set -fuzz 18% -draw 'color 0,0 floodfill' -draw 'color 1919,0 floodfill' -draw 'color 0,1079 floodfill' -draw 'color 1919,1079 floodfill' zustand1_test.png)",
+      "Bash(magick zustand1.png -alpha set -fuzz 35% -draw 'color 0,0 floodfill' -draw 'color 1919,0 floodfill' -draw 'color 0,1079 floodfill' -draw 'color 1919,1079 floodfill' zustand1_test2.png)",
+      "Bash(magick zustand1.png -alpha set -fuzz 50% -draw 'color 0,0 floodfill' -draw 'color 1919,0 floodfill' -draw 'color 0,1079 floodfill' -draw 'color 1919,1079 floodfill' -draw 'color 960,1079 floodfill' -draw 'color 960,0 floodfill' zustand1_test3.png)",
+      "Bash(magick zustand1.png -alpha set -fuzz 65% -draw 'color 0,0 floodfill' -draw 'color 1919,0 floodfill' -draw 'color 0,1079 floodfill' -draw 'color 1919,1079 floodfill' -draw 'color 960,1079 floodfill' -draw 'color 960,0 floodfill' -draw 'color 0,540 floodfill' -draw 'color 1919,540 floodfill' -channel alpha -blur 0x6 +channel zustand1_test4.png)"
     ]
   }
 }
